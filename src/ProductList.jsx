@@ -256,16 +256,17 @@ function ProductList() {
    };
 
    const handleAddToCart = (plant) => {
-       if (addedToCart[plant.name]) {
-           return;
-       } else dispatch(addItem(plant));
-       setAddedToCart((prevState) => ({
-           ...prevState, [plant.name]: true,
-       }));
+       // if (addedToCart[plant.name]) {
+       //     return;
+       // } else dispatch(addItem(plant));
+       // setAddedToCart((prevState) => ({
+       //     ...prevState, [plant.name]: true,
+       // }));
+       dispatch(addItem(plant));
    };
 
    const alreadyInCart = (plant) => {
-
+     return cart.find(item => item.name === plant.name);
    }
 
     const calculateProductCount = () => {
@@ -321,8 +322,8 @@ function ProductList() {
                                 <img className="product-image" src={plant.image} alt={plant.name}/>
                                 <div className="product-price">{plant.cost}</div>
                                 <div><i>{plant.description}</i></div>
-                                <button className={`product-button ${addedToCart[plant.name] ? "added-to-cart" : ""}`} onClick={() => handleAddToCart(plant)}>
-                                    {addedToCart[plant.name] ? "Added to Cart" : "Add to Cart"}
+                                <button className={`product-button ${alreadyInCart(plant) ? "added-to-cart" : ""}`} disabled={!!alreadyInCart(plant)} onClick={() => handleAddToCart(plant)}>
+                                    {alreadyInCart(plant) ? "Added to Cart" : "Add to Cart"}
                                 </button>
                             </div>
                         ))}
